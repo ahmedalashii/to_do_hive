@@ -1,5 +1,5 @@
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:to_do_hive/app/modules/home/views/widgets/animation_curved_bottom_nav_bar.dart';
+import 'package:to_do_hive/app/modules/home/views/widgets/animated_botton_nav_bar.dart';
 import 'package:to_do_hive/app/routes/app_pages.dart';
 import 'package:to_do_hive/constants/exports.dart';
 import '../../../data/models/note.dart';
@@ -113,7 +113,7 @@ class HomeView extends GetView<HomeController> {
               bottom: 0,
               left: 0,
               right: 0,
-              child: ConvexAnimatedBottomNavBar(),
+              child: AnimatedBottomNavBar(),
             ),
           ],
         ),
@@ -132,7 +132,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget? floatingActionButton() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 50.h),
+      padding: EdgeInsets.symmetric(vertical: 80.h),
       child: FloatingActionButton(
         onPressed: () {
           Get.toNamed(

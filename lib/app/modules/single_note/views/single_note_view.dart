@@ -1,8 +1,7 @@
 import 'package:to_do_hive/app/modules/home/controllers/home_controller.dart';
-import 'package:to_do_hive/app/modules/single_note/views/widgets/animation_curved_bottom_nav_bar.dart';
+import 'package:to_do_hive/app/modules/single_note/views/widgets/animated_botton_nav_bar.dart';
 import 'package:to_do_hive/constants/exports.dart';
 import '../../../data/models/note.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/single_note_controller.dart';
 
 class SingleNoteView extends GetView<SingleNoteController> {
@@ -18,22 +17,19 @@ class SingleNoteView extends GetView<SingleNoteController> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: EdgeInsets.symmetric(vertical: 95.h),
-        child: GetBuilder<SingleNoteController>(
-            builder: (SingleNoteController controller) {
-          return FloatingActionButton(
-            onPressed: () {
-              savingNote(controller);
-            },
-            focusColor: ColorManager.transparent,
-            splashColor: ColorManager.transparent,
-            backgroundColor: ColorManager.white,
-            child: Icon(
-              Icons.check_rounded,
-              color: ColorManager.accent,
-              size: 45,
-            ),
-          );
-        }),
+        child: FloatingActionButton(
+          onPressed: () async {
+            await savingNote(controller);
+          },
+          focusColor: ColorManager.transparent,
+          splashColor: ColorManager.transparent,
+          backgroundColor: ColorManager.white,
+          child: Icon(
+            Icons.check_rounded,
+            color: ColorManager.accent,
+            size: 45,
+          ),
+        ),
       ),
       body: SafeArea(
         child: Stack(
@@ -48,7 +44,10 @@ class SingleNoteView extends GetView<SingleNoteController> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => Get.back(),
+                          onPressed: () {
+                            savingNote(controller);
+                            Get.back();
+                          },
                           icon: const Icon(Icons.arrow_back_rounded),
                         ),
                         const Spacer(),
@@ -128,7 +127,7 @@ class SingleNoteView extends GetView<SingleNoteController> {
               bottom: 0,
               left: 0,
               right: 0,
-              child: ConvexAnimatedBottomNavBar(),
+              child: AnimatedBottomNavBar(),
             ),
           ],
         ),
@@ -136,22 +135,24 @@ class SingleNoteView extends GetView<SingleNoteController> {
     );
   }
 
-  void savingNote(SingleNoteController controller) {
+  Future<void> savingNote(SingleNoteController controller) async {
     Note note = Get.arguments[0] as Note;
     note.title = controller.titleTextEditingController.text;
     note.content = controller.contentTextEditingController.text;
     note.backgroundColor = controller.staticColors[controller.selectedIndex];
-    bool isSucceed = homeController.addOrUpdate(note);
+    bool isSucceed = await homeController.addOrUpdate(note);
     if (isSucceed) {
-      Get.offNamed(Routes.HOME);
-      Get.showSnackbar(const GetSnackBar(
-        message: "Saved Succesfully",
-        duration: Duration(seconds: 1),
+      Get.back();
+      Get.showSnackbar(GetSnackBar(
+        message: (Get.arguments[1] == ScreenVisitingType.addNote)
+            ? "Saved Succesfully"
+            : "Editedxx Succesfully",
+        duration: const Duration(seconds: 1),
       ));
     } else {
       Get.showSnackbar(const GetSnackBar(
         message:
-            "You can't save a note that doesn't contain both title and content!",
+            "You can't save a note that doesn't contain both subject and content!",
         duration: Duration(seconds: 2),
       ));
     }

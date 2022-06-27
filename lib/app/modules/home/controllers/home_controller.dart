@@ -15,7 +15,7 @@ class HomeController extends GetxController {
     update();
   }
 
-  bool addOrUpdate(Note note) {
+  Future<bool> addOrUpdate(Note note) async {
     // this method will return whether the adding/updating process is completely succeed or not.
     if ((note.title == null || note.title!.isEmpty) && note.content.isEmpty) {
       return false;
@@ -27,7 +27,7 @@ class HomeController extends GetxController {
             note;
       }
       debugPrint(note.id.toString());
-      notesBox.put(note.id, note);
+      await notesBox.put(note.id, note);
       update();
       return true;
     }

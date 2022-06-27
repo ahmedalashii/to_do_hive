@@ -1,8 +1,8 @@
 import '../../../../../constants/exports.dart';
 import '../../controllers/single_note_controller.dart';
 
-class ConvexAnimatedBottomNavBar extends GetView<SingleNoteController> {
-  const ConvexAnimatedBottomNavBar({
+class AnimatedBottomNavBar extends GetView<SingleNoteController> {
+  const AnimatedBottomNavBar({
     Key? key,
   }) : super(key: key);
 
@@ -15,7 +15,7 @@ class ConvexAnimatedBottomNavBar extends GetView<SingleNoteController> {
             color: ColorManager.grey,
             blurRadius: 50,
             spreadRadius: 3,
-            offset: const Offset(-2, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -26,7 +26,7 @@ class ConvexAnimatedBottomNavBar extends GetView<SingleNoteController> {
         ),
         child: BottomAppBar(
           shape: const CircularNotchedRectangle(),
-          notchMargin: 10.h,
+          notchMargin: 15.h,
           elevation: 50,
           color: ColorManager.white.withOpacity(0.9),
           child: Container(

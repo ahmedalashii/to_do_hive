@@ -14,7 +14,7 @@ class SingleNoteController extends GetxController {
     "#ffa348",
     "#525252",
     "#C7C7CC",
-    "#F9F9F9",
+    "#CA6F1E",
     '#CBF6FF',
     "#B3ED9728",  
     "#ffa6c4",
