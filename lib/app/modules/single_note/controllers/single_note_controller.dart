@@ -6,7 +6,6 @@ class SingleNoteController extends GetxController {
   late TextEditingController titleTextEditingController;
   late TextEditingController contentTextEditingController;
 
-  int selectedIndex = 0;
   bool isPinned = false;
   List<String> staticColors = [
     "#FFC600",
@@ -16,13 +15,14 @@ class SingleNoteController extends GetxController {
     "#C7C7CC",
     "#CA6F1E",
     '#CBF6FF',
-    "#B3ED9728",  
+    "#B3ED9728",
     "#ffa6c4",
     "#1ecdc4",
     "#FFF6DB",
     "#1ecdc4",
     "#7eccff",
   ];
+  late int selectedIndex;
 
   void selectColor(int index) {
     selectedIndex = index;
@@ -38,6 +38,8 @@ class SingleNoteController extends GetxController {
 
   @override
   void onInit() {
+    selectedIndex = staticColors.indexWhere((String staticColor) =>
+        (Get.arguments[0] as Note).backgroundColor == staticColor);
     titleTextEditingController = TextEditingController();
     contentTextEditingController = TextEditingController();
     titleTextEditingController.text = (Get.arguments[0] as Note).title!;
