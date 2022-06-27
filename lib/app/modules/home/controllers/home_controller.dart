@@ -1,38 +1,69 @@
+import 'package:to_do_hive/app/modules/single_note/controllers/single_note_controller.dart';
 import 'package:to_do_hive/constants/exports.dart';
 
 import '../../../data/models/note.dart';
 
 class HomeController extends GetxController {
   int bottomNavigationBarIndex = 0;
-  List<Note> notes = [
-    Note(
-      title: "Coffee",
-      content: "Contentaa,ldkaskdas;lda;'sdasdasd",
-      createdDate: DateTime(2022, 10, 18, 4, 30),
-      backgroundColor: ColorManager.darkOrange,
-    ),
-    Note(
-      title: "Title",
-      content:
-          "Contentaa,ldkaskdas;lda;'sdasdasd Contentaa,ldkaskdas;lda;'sdasdasdContentaa,ldkaskdas;lda;'sdasdasdContentaa,ldkaskdas;lda;'sdasdasdContentaa,ldkaskdas;lda;'sdasdasdContentaa,ldkaskdas;lda;'sdasdasdContentaa,ldkaskdas;lda;'sdasdasd",
-      createdDate: DateTime(2022, 10, 18, 4, 30),
-      backgroundColor: ColorManager.pink,
-    ),
-    Note(
-      title: "Title",
-      content: "Contentaa,ldkaskdas;lda;'sdasdasd",
-      createdDate: DateTime(2022, 10, 18, 4, 30),
-      backgroundColor: ColorManager.lightGreen,
-    ),
-    Note(
-      content: "Contentaa,ldkaskdas;lda;'sdasdasd",
-      createdDate: DateTime(2022, 10, 18, 4, 30),
-      backgroundColor: ColorManager.lightBlue,
-    ),
-  ];
+  late Box<Note> notesBox;
+  int noOfCreatedNotes = 0;
+
+  List<Note> notes = [];
 
   void changeBottomNavigationBarIndex(int index) {
     bottomNavigationBarIndex = index;
+    update();
+  }
+
+  bool addOrUpdate(Note note) {
+    // this method will return whether the adding/updating process is completely succeed or not.
+    if ((note.title == null || note.title!.isEmpty) && note.content.isEmpty) {
+      return false;
+    } else {
+      if (Get.arguments[1] == ScreenVisitingType.addNote) {
+        notes.add(note);
+      } else {
+        notes[notes.indexWhere((Note tempNote) => tempNote.id == note.id)] =
+            note;
+      }
+      debugPrint(note.id.toString());
+      notesBox.put(note.id, note);
+      update();
+      return true;
+    }
+  }
+
+  void removeNote(int id) {
+    Note? note = notes.firstWhereOrNull((Note note) => note.id == id);
+    notesBox.delete(note);
+    notes.removeWhere((Note note) => note.id == id);
+    update();
+  }
+
+  // Single Responsibility Method ..
+  void initNotes() {
+    for (int index = 0; index < notesBox.values.length; index++) {
+      debugPrint(notesBox.getAt(index)!.title);
+      debugPrint(notesBox.getAt(index)!.isPinned.toString());
+      notes.add(notesBox.getAt(index)!);
+    }
+    update();
+  }
+
+  @override
+  void onInit() async {
+    await Hive.initFlutter();
+    Hive.registerAdapter(NoteAdapter());
+    notesBox = await Hive.openBox<Note>("notesBox");
+    noOfCreatedNotes = notesBox.length;
+    // await clearBox(notesBox);
+    initNotes();
+    super.onInit();
+  }
+
+  // Single Responsibility Method ..
+  Future<void> clearBox(Box box) async {
+    await box.clear();
     update();
   }
 

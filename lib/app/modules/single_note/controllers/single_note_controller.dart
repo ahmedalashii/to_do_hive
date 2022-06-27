@@ -7,17 +7,21 @@ class SingleNoteController extends GetxController {
   late TextEditingController contentTextEditingController;
 
   int selectedIndex = 0;
-
-  List<Color> staticColors = [
-    ColorManager.accent,
-    ColorManager.primary,
-    ColorManager.darkOrange,
-    ColorManager.blueAccent,
-    ColorManager.pink,
-    ColorManager.lightGreen,
-    ColorManager.lightYellow,
-    ColorManager.lightGreen,
-    ColorManager.lightBlue,
+  bool isPinned = false;
+  List<String> staticColors = [
+    "#FFC600",
+    "#1D5FB8",
+    "#ffa348",
+    "#525252",
+    "#C7C7CC",
+    "#F9F9F9",
+    '#CBF6FF',
+    "#B3ED9728",  
+    "#ffa6c4",
+    "#1ecdc4",
+    "#FFF6DB",
+    "#1ecdc4",
+    "#7eccff",
   ];
 
   void selectColor(int index) {
@@ -25,17 +29,20 @@ class SingleNoteController extends GetxController {
     update();
   }
 
+  void pin() {
+    isPinned = !isPinned;
+    (Get.arguments[0] as Note).isPinned = isPinned;
+    debugPrint((Get.arguments[0] as Note).isPinned.toString());
+    update();
+  }
+
   @override
   void onInit() {
     titleTextEditingController = TextEditingController();
-    titleTextEditingController.text = "Coffee";
     contentTextEditingController = TextEditingController();
+    titleTextEditingController.text = (Get.arguments[0] as Note).title!;
+    contentTextEditingController.text = (Get.arguments[0] as Note).content;
     super.onInit();
-  }
-
-  void addNote(Note note){
-    // adding process
-    debugPrint(note.title);
   }
 
   @override
@@ -44,3 +51,5 @@ class SingleNoteController extends GetxController {
     contentTextEditingController.dispose();
   }
 }
+
+enum ScreenVisitingType { addNote, editNote }

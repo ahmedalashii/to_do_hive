@@ -10,7 +10,7 @@ class ColorManager {
   static Color fontColor = HexColor.fromHex("#000000");
   static Color shadowColor = HexColor.fromHex("#545596").withOpacity(0.2);
   static Color yellow = HexColor.fromHex("#FFCB53");
-  static Color lightYellow = HexColor.fromHex("##FFF6DB");
+  static Color lightYellow = HexColor.fromHex("#FFF6DB");
   static Color textFieldColor = HexColor.fromHex('#000000').withOpacity(0.08);
 
   // new colors

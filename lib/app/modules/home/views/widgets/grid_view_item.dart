@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:to_do_hive/app/modules/single_note/controllers/single_note_controller.dart';
 import '../../../../../constants/exports.dart';
 import '../../../../data/models/note.dart';
 import '../../../../routes/app_pages.dart';
@@ -14,12 +15,20 @@ class GridViewItem extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.toNamed(Routes.SINGLE_NOTE, arguments: note),
+      onTap: () {
+        Get.toNamed(
+          Routes.SINGLE_NOTE,
+          arguments: [
+            note,
+            ScreenVisitingType.editNote,
+          ],
+        );
+      },
       child: Container(
         padding: EdgeInsets.all(15.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: note.backgroundColor ?? ColorManager.darkOrange,
+          color: HexColor.fromHex(note.backgroundColor),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

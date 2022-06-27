@@ -1,8 +1,11 @@
 import '../../../constants/exports.dart';
+import '../../modules/home/controllers/home_controller.dart';
 part "note.g.dart";
 
 @HiveType(typeId: 0)
 class Note extends HiveObject {
+  final HomeController homeController = Get.find();
+
   @HiveField(0)
   String? title;
   @HiveField(1)
@@ -10,12 +13,17 @@ class Note extends HiveObject {
   @HiveField(2)
   DateTime createdDate;
   @HiveField(3)
-  Color? backgroundColor;
+  late String backgroundColor;
   @HiveField(4)
-  bool isPinned = false;
+  late bool isPinned;
+  @HiveField(5)
+  late int id;
   Note(
       {this.title,
       required this.content,
       required this.createdDate,
-      this.backgroundColor});
+      required this.backgroundColor,
+      this.isPinned = false}) {
+    id = homeController.noOfCreatedNotes++;
+  }
 }

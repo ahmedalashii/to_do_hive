@@ -1,16 +1,7 @@
 import 'app/routes/app_pages.dart';
 import 'constants/exports.dart';
 
-late Box box;
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  // box = await Hive.openBox("box");
-  // Hive.registerAdapter(NoteAdapter());
-  // box.put(
-  //     "note",
-  //     Note(
-  //         content: "ads", createdDate: DateTime(2022, 10, 18), title: "asd  "));
+void main() {
   runApp(
     ScreenUtilInit(
       designSize: const Size(375, 812),

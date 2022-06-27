@@ -15,7 +15,7 @@ class ConvexAnimatedBottomNavBar extends GetView<SingleNoteController> {
             color: ColorManager.grey,
             blurRadius: 50,
             spreadRadius: 3,
-            offset: const Offset(-2,2),
+            offset: const Offset(-2, 2),
           ),
         ],
       ),
@@ -49,7 +49,7 @@ class ConvexAnimatedBottomNavBar extends GetView<SingleNoteController> {
                       decoration: BoxDecoration(
                         color: (controller.selectedIndex == index)
                             ? ColorManager.transparent
-                            : controller.staticColors[index],
+                            : HexColor.fromHex(controller.staticColors[index]),
                         borderRadius: BorderRadius.circular(10.w),
                         border: (controller.selectedIndex == index)
                             ? Border.all(color: ColorManager.grey, width: 1)
