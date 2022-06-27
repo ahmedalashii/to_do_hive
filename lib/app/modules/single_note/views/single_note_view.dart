@@ -146,7 +146,7 @@ class SingleNoteView extends GetView<SingleNoteController> {
       Get.showSnackbar(GetSnackBar(
         message: (Get.arguments[1] == ScreenVisitingType.addNote)
             ? "Saved Succesfully"
-            : "Editedxx Succesfully",
+            : "Edited Succesfully",
         duration: const Duration(seconds: 1),
       ));
     } else {
