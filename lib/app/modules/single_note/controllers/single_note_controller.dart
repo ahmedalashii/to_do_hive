@@ -11,6 +11,7 @@ class SingleNoteController extends GetxController {
   DateTime? date = DateTime.now();
   TimeOfDay? time = TimeOfDay.now();
 
+
   bool isPinned = false;
   List<String> staticColors = [
     "#FFC600",
@@ -54,12 +55,12 @@ class SingleNoteController extends GetxController {
     super.onInit();
   }
 
-  void changeDate(DateTime? date) {
+  void changeDate(DateTime? date){
     this.date = date;
     update();
   }
 
-  void changeTime(TimeOfDay? time) {
+   void changeTime(TimeOfDay? time){
     this.time = time;
     update();
   }

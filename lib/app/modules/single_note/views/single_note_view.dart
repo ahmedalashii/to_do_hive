@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:to_do_hive/app/modules/home/controllers/home_controller.dart';
@@ -128,16 +129,26 @@ class SingleNoteView extends GetView<SingleNoteController> {
                                                   color: ColorManager.textColor,
                                                 ),
                                                 onPressed: () async {
-                                                  DateTime? tempDate =
-                                                      await showDatePicker(
-                                                    context: context,
-                                                    initialDate:
-                                                        controller.date!,
-                                                    firstDate: DateTime(2022),
-                                                    lastDate: DateTime(2100),
+                                                  Get.bottomSheet(
+                                                    SizedBox(
+                                                      height: 200.h,
+                                                      child:
+                                                          CupertinoDatePicker(
+                                                        mode:
+                                                            CupertinoDatePickerMode
+                                                                .dateAndTime,
+                                                        initialDateTime:
+                                                            DateTime.now(),
+                                                        onDateTimeChanged:
+                                                            (DateTime date) {
+                                                          controller
+                                                              .changeDate(date);
+                                                        },
+                                                      ),
+                                                    ),
+                                                    backgroundColor:
+                                                        ColorManager.white,
                                                   );
-                                                  controller
-                                                      .changeDate(tempDate);
                                                 },
                                               ),
                                             ),
@@ -172,6 +183,26 @@ class SingleNoteView extends GetView<SingleNoteController> {
                                                   color: ColorManager.textColor,
                                                 ),
                                                 onPressed: () async {
+                                                  //  Get.bottomSheet(
+                                                  //   SizedBox(
+                                                  //     height: 200.h,
+                                                  //     child:
+                                                  //         CupertinoDatePicker(
+                                                  //       mode:
+                                                  //           CupertinoDatePickerMode
+                                                  //               .time,
+                                                  //       initialDateTime:
+                                                  //           DateTime(
+                                                  //               2022, 1, 1),
+                                                  //       onDateTimeChanged:
+                                                  //           (DateTime date) {
+                                                  //         controller
+                                                  //             .changeDate(date);
+                                                  //       },
+                                                  //     ),
+                                                  //   ),
+                                                  //   backgroundColor: ColorManager.white,
+                                                  // );
                                                   TimeOfDay? tempTime =
                                                       await showTimePicker(
                                                     context: context,
@@ -217,7 +248,12 @@ class SingleNoteView extends GetView<SingleNoteController> {
                                                   ),
                                                 ),
                                                 GestureDetector(
-                                                  onTap: () {},
+                                                  onTap: () {
+                                                    Note note = Get.arguments[0]
+                                                        as Note;
+                                                    note.createdDate =
+                                                        controller.date!;
+                                                  },
                                                   child: Container(
                                                     width: 100.w,
                                                     padding:
