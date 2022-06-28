@@ -131,7 +131,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget? floatingActionButton() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 80.h),
+      padding: EdgeInsets.symmetric(vertical: 75.h),
       child: FloatingActionButton(
         onPressed: () {
           Get.toNamed(

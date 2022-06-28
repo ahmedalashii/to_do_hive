@@ -15,7 +15,9 @@ class GridViewItem extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: (){}, // here we stop
+      onLongPress: () {
+        controller.makeDeleteButtonVisible(note);
+      },
       onTap: () {
         Get.toNamed(
           Routes.SINGLE_NOTE,

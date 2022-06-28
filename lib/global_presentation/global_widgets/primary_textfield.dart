@@ -1,10 +1,6 @@
-import 'package:to_do_hive/global_presentation/global_widgets/primary_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:to_do_hive/constants/exports.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../global_features/color_manager.dart';
 import '../global_features/theme_manager.dart';
 
 class PrimaryTextField extends StatelessWidget {
@@ -20,7 +16,12 @@ class PrimaryTextField extends StatelessWidget {
   final bool? multiLines;
   final TextInputAction? textInputAction;
   final String title;
+  final InputBorder? focusedBorder;
+  final InputBorder? enabledBorder;
+  final bool filled;
+  final Color? filledColor;
 
+  
   const PrimaryTextField({
     Key? key,
     this.hintText,
@@ -29,6 +30,10 @@ class PrimaryTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.prefixIcon,
     this.onTap,
+    this.focusedBorder,
+    this.enabledBorder,
+    this.filled = false,
+    this.filledColor,
     this.readOnly = false,
     this.onFieldSubmitted,
     this.suffixIcon,
@@ -39,7 +44,7 @@ class PrimaryTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle hintStyle = TextStyle(color: ColorManager.grey, fontSize: 14.sp);
+    TextStyle hintStyle = TextStyle(color: ColorManager.grey, fontSize: 14.sp,fontWeight: FontWeightManager.medium);
     TextStyle style = TextStyle(
         color: isDarkMoodEnabled() ? Colors.white : ColorManager.fontColor);
     return Column(
@@ -76,7 +81,11 @@ class PrimaryTextField extends StatelessWidget {
             onFieldSubmitted: onFieldSubmitted ?? (String value) {},
             decoration: InputDecoration(
               prefixIcon: prefixIcon,
+              filled: filled,
+              fillColor: filledColor,
               suffixIcon: suffixIcon,
+              focusedBorder: focusedBorder ?? InputBorder.none,
+              enabledBorder: enabledBorder ?? InputBorder.none,
               focusColor: ColorManager.primary,
               hoverColor: ColorManager.primary,
               hintText: hintText ?? "",
@@ -87,7 +96,9 @@ class PrimaryTextField extends StatelessWidget {
                     ),
               border: isDarkMoodEnabled()
                   ? InputBorder.none
-                  : OutlineInputBorder(borderRadius: BorderRadius.circular(8),),
+                  : OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
               contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             ),
             validator: validator ??

@@ -32,6 +32,7 @@ class ColorManager {
   static Color red = HexColor.fromHex('#E60000');
   static Color gold = HexColor.fromHex('#FFF6DB');
   static Color orangeAccent = HexColor.fromHex('#FFEBDF');
+  static Color navy = HexColor.fromHex('#000080');
 
   // Dark Theme
   static Color scaffoldDarkColor = HexColor.fromHex("#16202A");

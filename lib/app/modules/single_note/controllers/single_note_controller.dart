@@ -5,6 +5,11 @@ import '../../../data/models/note.dart';
 class SingleNoteController extends GetxController {
   late TextEditingController titleTextEditingController;
   late TextEditingController contentTextEditingController;
+  // Dialog TextFields:
+  late TextEditingController datePickerController;
+  late TextEditingController timePickerController;
+  DateTime? date = DateTime.now();
+  TimeOfDay? time = TimeOfDay.now();
 
   bool isPinned = false;
   List<String> staticColors = [
@@ -42,15 +47,29 @@ class SingleNoteController extends GetxController {
         (Get.arguments[0] as Note).backgroundColor == staticColor);
     titleTextEditingController = TextEditingController();
     contentTextEditingController = TextEditingController();
+    datePickerController = TextEditingController();
+    timePickerController = TextEditingController();
     titleTextEditingController.text = (Get.arguments[0] as Note).title!;
     contentTextEditingController.text = (Get.arguments[0] as Note).content;
     super.onInit();
+  }
+
+  void changeDate(DateTime? date) {
+    this.date = date;
+    update();
+  }
+
+  void changeTime(TimeOfDay? time) {
+    this.time = time;
+    update();
   }
 
   @override
   void onClose() {
     titleTextEditingController.dispose();
     contentTextEditingController.dispose();
+    datePickerController.dispose();
+    timePickerController.dispose();
   }
 }
 

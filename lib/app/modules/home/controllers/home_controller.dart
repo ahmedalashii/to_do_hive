@@ -7,6 +7,8 @@ class HomeController extends GetxController {
   int bottomNavigationBarIndex = 0;
   late Box<Note> notesBox;
   int noOfCreatedNotes = 0;
+  bool isDeleteVisible = false;
+  late Note noteToBeDeleted;
 
   List<Note> notes = [];
 
@@ -33,10 +35,16 @@ class HomeController extends GetxController {
     }
   }
 
-  void removeNote(int id) {
-    Note? note = notes.firstWhereOrNull((Note note) => note.id == id);
-    notesBox.delete(note);
-    notes.removeWhere((Note note) => note.id == id);
+  void makeDeleteButtonVisible(Note note) {
+    isDeleteVisible = !isDeleteVisible;
+    noteToBeDeleted = note;
+    update();
+  }
+
+  void removeNote() {
+    notesBox.delete(noteToBeDeleted.id);
+    notes.remove(noteToBeDeleted);
+    isDeleteVisible = !isDeleteVisible;
     update();
   }
 
