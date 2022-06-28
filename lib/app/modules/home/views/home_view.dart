@@ -21,6 +21,15 @@ class HomeView extends GetView<HomeController> {
         child: Stack(
           children: [
             GetBuilder<HomeController>(builder: (HomeController controller) {
+              List<Note> pinnedNotes = [];
+              List<Note> upcomingNotes = [];
+              for (Note note in controller.notes) {
+                if (note.isPinned) {
+                  pinnedNotes.add(note);
+                } else {
+                  upcomingNotes.add(note);
+                }
+              }
               return Align(
                 alignment: AlignmentDirectional.topStart,
                 child: SingleChildScrollView(
@@ -62,14 +71,9 @@ class HomeView extends GetView<HomeController> {
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 10.h,
                                 crossAxisSpacing: 10.w,
-                                itemCount: controller.notes.length,
+                                itemCount: pinnedNotes.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  if (controller.notes[index].isPinned ==
-                                      true) {
-                                    return GridViewItem(
-                                        note: controller.notes[index]);
-                                  }
-                                  return Container();
+                                  return GridViewItem(note: pinnedNotes[index]);
                                 },
                               )
                             : emptyNotesList(
@@ -90,15 +94,10 @@ class HomeView extends GetView<HomeController> {
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 10.h,
                                 crossAxisSpacing: 10.w,
-                                itemCount: controller.notes.length,
+                                itemCount: upcomingNotes.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  if (controller.notes[index].isPinned ==
-                                      false) {
-                                    return GridViewItem(
-                                        note: controller.notes[index]);
-                                  } else {
-                                    return const SizedBox();
-                                  }
+                                  return GridViewItem(
+                                      note: upcomingNotes[index]);
                                 },
                               )
                             : emptyNotesList(
