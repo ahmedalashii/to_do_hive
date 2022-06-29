@@ -136,7 +136,7 @@ class SingleNoteView extends GetView<SingleNoteController> {
                                                           CupertinoDatePicker(
                                                         mode:
                                                             CupertinoDatePickerMode
-                                                                .dateAndTime,
+                                                                .date,
                                                         initialDateTime:
                                                             DateTime.now(),
                                                         onDateTimeChanged:
