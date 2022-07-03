@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:to_do_hive/app/core/helper_functions.dart';
 import 'package:to_do_hive/app/modules/single_note/controllers/single_note_controller.dart';
 import '../../../../../constants/exports.dart';
 import '../../../../data/models/note.dart';
@@ -15,9 +16,6 @@ class GridViewItem extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: () {
-        controller.makeDeleteButtonVisible(note);
-      },
       onTap: () {
         Get.toNamed(
           Routes.SINGLE_NOTE,
@@ -41,13 +39,37 @@ class GridViewItem extends GetView<HomeController> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                (note.title != null)
-                    ? PrimaryText(
-                        note.title ?? "",
-                        fontSize: 20,
-                        fontWeight: FontWeightManager.regular,
-                      )
-                    : const SizedBox(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    (note.title != null)
+                        ? PrimaryText(
+                            note.title ?? "",
+                            fontSize: 20,
+                            fontWeight: FontWeightManager.regular,
+                          )
+                        : const SizedBox(),
+                    PopupMenuButton<String>(
+                      elevation: 5,
+                      position: PopupMenuPosition.under,
+                      onSelected: (String value) {
+                        if (value == "delete") {
+                          controller.removeNote(note);
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: "delete",
+                          child: PrimaryText(
+                            "Delete",
+                            fontSize: 20,
+                            color: ColorManager.black,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
                 PrimaryText(
                   note.content,
                   fontSize: 17,
@@ -65,7 +87,7 @@ class GridViewItem extends GetView<HomeController> {
                 borderRadius: BorderRadius.circular(5.h),
               ),
               child: PrimaryText(
-                "${DateFormat("EEEE").format(note.createdDate)}, ${note.createdDate.hour}:${note.createdDate.minute}",
+                "${DateFormat("EEEE").format(note.remindingDate)}, ${formatTimeOfDay(note.remindingDate)}",
                 textAlign: TextAlign.center,
               ),
             ),

@@ -11,7 +11,7 @@ class Note extends HiveObject {
   @HiveField(1)
   String content;
   @HiveField(2)
-  DateTime createdDate;
+  DateTime remindingDate;
   @HiveField(3)
   late String backgroundColor;
   @HiveField(4)
@@ -21,7 +21,7 @@ class Note extends HiveObject {
   Note(
       {this.title,
       required this.content,
-      required this.createdDate,
+      required this.remindingDate,
       required this.backgroundColor,
       this.isPinned = false}) {
     id = homeController.noOfCreatedNotes++;

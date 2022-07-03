@@ -41,26 +41,9 @@ class AnimatedBottomNavBar extends GetView<HomeController> {
               padding: EdgeInsets.symmetric(horizontal: 30.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Icon(Icons.menu_rounded, size: 30),
-                  GetBuilder<HomeController>(
-                      builder: (HomeController controller) {
-                    return AnimatedOpacity(
-                      opacity: controller.isDeleteVisible ? 1.0 : 0.0,
-                      duration: const Duration(seconds: 1),
-                      child: Visibility(
-                        visible: controller.isDeleteVisible,
-                        child: IconButton(
-                          onPressed: () {
-                            controller.removeNote();
-                          },
-                          icon: const Icon(Icons.delete_forever_rounded,
-                              size: 30),
-                        ),
-                      ),
-                    );
-                  }),
-                  const Icon(Icons.search_rounded, size: 30),
+                children: const [
+                  Icon(Icons.menu_rounded, size: 30),
+                  Icon(Icons.search_rounded, size: 30),
                 ],
               ),
             ),

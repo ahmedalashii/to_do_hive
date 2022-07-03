@@ -19,7 +19,7 @@ class NoteAdapter extends TypeAdapter<Note> {
     return Note(
       title: fields[0] as String?,
       content: fields[1] as String,
-      createdDate: fields[2] as DateTime,
+      remindingDate: fields[2] as DateTime,
       backgroundColor: fields[3] as String,
       isPinned: fields[4] as bool,
     )..id = fields[5] as int;
@@ -34,7 +34,7 @@ class NoteAdapter extends TypeAdapter<Note> {
       ..writeByte(1)
       ..write(obj.content)
       ..writeByte(2)
-      ..write(obj.createdDate)
+      ..write(obj.remindingDate)
       ..writeByte(3)
       ..write(obj.backgroundColor)
       ..writeByte(4)

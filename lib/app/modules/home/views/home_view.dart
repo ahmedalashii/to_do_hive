@@ -141,7 +141,7 @@ class HomeView extends GetView<HomeController> {
                 title: "",
                 content: "",
                 backgroundColor: "#7eccff",
-                createdDate: DateTime.now(),
+                remindingDate: DateTime.now(),
               ),
               ScreenVisitingType.addNote,
             ],

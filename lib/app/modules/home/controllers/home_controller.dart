@@ -7,8 +7,6 @@ class HomeController extends GetxController {
   int bottomNavigationBarIndex = 0;
   late Box<Note> notesBox;
   int noOfCreatedNotes = 0;
-  bool isDeleteVisible = false;
-  late Note noteToBeDeleted;
 
   List<Note> notes = [];
 
@@ -19,7 +17,8 @@ class HomeController extends GetxController {
 
   Future<bool> addOrUpdate(Note note) async {
     // this method will return whether the adding/updating process is completely succeed or not.
-    if ((note.title == null || note.title!.isEmpty) && note.content.isEmpty) {
+    if (((note.title == null || note.title!.isEmpty) && note.content.isEmpty) ||
+        Get.arguments == null) {
       return false;
     } else {
       if (Get.arguments[1] == ScreenVisitingType.addNote) {
@@ -28,23 +27,20 @@ class HomeController extends GetxController {
         notes[notes.indexWhere((Note tempNote) => tempNote.id == note.id)] =
             note;
       }
-      debugPrint(note.id.toString());
       await notesBox.put(note.id, note);
       update();
       return true;
     }
   }
 
-  void makeDeleteButtonVisible(Note note) {
-    isDeleteVisible = !isDeleteVisible;
-    noteToBeDeleted = note;
-    update();
-  }
-
-  void removeNote() {
-    notesBox.delete(noteToBeDeleted.id);
-    notes.remove(noteToBeDeleted);
-    isDeleteVisible = !isDeleteVisible;
+  void removeNote(Note note) {
+    notesBox.delete(note.id);
+    notes.remove(note);
+    Get.showSnackbar(const GetSnackBar(
+      message:
+          "Note has been deleted Succesfully!",
+      duration: Duration(seconds: 2),
+    ));
     update();
   }
 
