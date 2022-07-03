@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../../constants/exports.dart';
 import '../../controllers/single_note_controller.dart';
@@ -22,7 +21,8 @@ class RemindingDateDialogContent extends GetView<SingleNoteController> {
             fontWeight: FontWeightManager.regular,
           ),
           SizedBox(height: 5.h),
-          Obx(() {
+          GetBuilder<SingleNoteController>(
+              builder: (SingleNoteController controller) {
             return PrimaryTextField(
               controller: controller.datePickerController,
               readOnly: true,
@@ -40,8 +40,8 @@ class RemindingDateDialogContent extends GetView<SingleNoteController> {
                   color: ColorManager.transparent,
                 ),
               ),
-              hintText:
-                  "${DateFormat("EEEE").format(controller.dateAndTime!.value)}, ${controller.afterWhat()}",
+              // hintText:
+              //     "${DateFormat("EEEE").format(controller.dateAndTime!.value)}, ${controller.afterWhat()}",
               title: "",
               suffixIcon: IconButton(
                 icon: Icon(
@@ -54,7 +54,7 @@ class RemindingDateDialogContent extends GetView<SingleNoteController> {
                       height: 200.h,
                       child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.dateAndTime,
-                        initialDateTime: controller.dateAndTime!.value,
+                        initialDateTime: controller.dateAndTime,
                         onDateTimeChanged: (DateTime date) {
                           controller.changeDate(date);
                         },
@@ -66,6 +66,49 @@ class RemindingDateDialogContent extends GetView<SingleNoteController> {
               ),
             );
           }),
+          // Obx(() {
+          //   return PrimaryTextField(
+          //     controller: controller.datePickerController,
+          //     readOnly: true,
+          //     filled: true,
+          //     filledColor: ColorManager.grey.withOpacity(0.3),
+          //     focusedBorder: OutlineInputBorder(
+          //       borderRadius: BorderRadius.circular(8),
+          //       borderSide: BorderSide(
+          //         color: ColorManager.transparent,
+          //       ),
+          //     ),
+          //     enabledBorder: OutlineInputBorder(
+          //       borderRadius: BorderRadius.circular(8),
+          //       borderSide: BorderSide(
+          //         color: ColorManager.transparent,
+          //       ),
+          //     ),
+
+          //     title: "",
+          //     suffixIcon: IconButton(
+          //       icon: Icon(
+          //         Icons.date_range_rounded,
+          //         color: ColorManager.textColor,
+          //       ),
+          //       onPressed: () async {
+          //         Get.bottomSheet(
+          //           SizedBox(
+          //             height: 200.h,
+          //             child: CupertinoDatePicker(
+          //               mode: CupertinoDatePickerMode.dateAndTime,
+          //               initialDateTime: controller.dateAndTime!.value,
+          //               onDateTimeChanged: (DateTime date) {
+          //                 controller.changeDate(date);
+          //               },
+          //             ),
+          //           ),
+          //           backgroundColor: ColorManager.white,
+          //         );
+          //       },
+          //     ),
+          //   );
+          // }),
           SizedBox(height: 25.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -92,6 +135,7 @@ class RemindingDateDialogContent extends GetView<SingleNoteController> {
               GestureDetector(
                 onTap: () {
                   controller.saveDate();
+                  Get.back();
                 },
                 child: Container(
                   width: 100.w,

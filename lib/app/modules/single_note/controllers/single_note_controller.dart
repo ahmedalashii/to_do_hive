@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:to_do_hive/constants/exports.dart';
 
 import '../../../core/helper_functions.dart';
@@ -10,9 +11,8 @@ class SingleNoteController extends GetxController {
   late TextEditingController contentTextEditingController;
   // Dialog TextFields:
   late TextEditingController datePickerController;
-  late TextEditingController timePickerController;
-  Rx<DateTime>? dateAndTime = DateTime.now().obs;
-  bool isPinned = (Get.arguments[0] as Note).isPinned;
+  DateTime dateAndTime = DateTime.now();
+  Rx<bool> isPinned = (Get.arguments[0] as Note).isPinned.obs;
   final HomeController homeController = Get.find();
 
   List<String> staticColors = [
@@ -38,8 +38,8 @@ class SingleNoteController extends GetxController {
   }
 
   void pin() {
-    isPinned = !isPinned;
-    (Get.arguments[0] as Note).isPinned = isPinned;
+    isPinned.value = !isPinned.value;
+    (Get.arguments[0] as Note).isPinned = isPinned.value;
     debugPrint((Get.arguments[0] as Note).isPinned.toString());
     update();
   }
@@ -51,20 +51,26 @@ class SingleNoteController extends GetxController {
     titleTextEditingController = TextEditingController();
     contentTextEditingController = TextEditingController();
     datePickerController = TextEditingController();
-    timePickerController = TextEditingController();
     titleTextEditingController.text = (Get.arguments[0] as Note).title!;
     contentTextEditingController.text = (Get.arguments[0] as Note).content;
-    dateAndTime!.value = (Get.arguments[0] as Note).remindingDate;
+    dateAndTime = (Get.arguments[0] as Note).remindingDate;
+    datePickerController.text =
+        "${DateFormat("EEEE").format(dateAndTime)}, ${afterWhat()}";
     super.onInit();
   }
 
   void changeDate(DateTime? dateAndTime) {
-    this.dateAndTime!.value = dateAndTime!;
+    this.dateAndTime = dateAndTime!;
+    datePickerController.text =
+        "${DateFormat("EEEE").format(this.dateAndTime)}, ${afterWhat()}";
     update();
   }
 
   void saveDate() {
-    (Get.arguments[0] as Note).remindingDate = dateAndTime!.value;
+    Note? note = (Get.arguments != null) ? Get.arguments[0] as Note : null;
+    if (note != null) {
+      note.remindingDate = dateAndTime;
+    }
     update();
   }
 
@@ -73,27 +79,26 @@ class SingleNoteController extends GetxController {
     titleTextEditingController.dispose();
     contentTextEditingController.dispose();
     datePickerController.dispose();
-    timePickerController.dispose();
   }
 
   String afterWhat() {
-    String? formatedDate = formatTimeOfDay(dateAndTime!.value);
-    if (dateAndTime!.value
+    String? formatedDate = formatTimeOfDay(dateAndTime);
+    if (dateAndTime
             .difference(DateTime(
                 DateTime.now().year, DateTime.now().month, DateTime.now().day))
             .inDays >
         0) {
       return "At $formatedDate";
-    } else if (dateAndTime!.value
+    } else if (dateAndTime
             .difference(DateTime(
                 DateTime.now().year, DateTime.now().month, DateTime.now().day))
             .inDays ==
         0) {
-      if ((dateAndTime!.value.hour - DateTime.now().hour) > 0) {
-        return "After ${dateAndTime!.value.hour - DateTime.now().hour} Hrs & ${dateAndTime!.value.minute} Mins.";
-      } else if ((dateAndTime!.value.hour - DateTime.now().hour) == 0) {
-        if (dateAndTime!.value.minute - DateTime.now().minute > 0) {
-          return "After ${dateAndTime!.value.minute - DateTime.now().minute} Mins.";
+      if ((dateAndTime.hour - DateTime.now().hour) > 0) {
+        return "After ${dateAndTime.hour - DateTime.now().hour} Hrs & ${dateAndTime.minute} Mins.";
+      } else if ((dateAndTime.hour - DateTime.now().hour) == 0) {
+        if (dateAndTime.minute - DateTime.now().minute > 0) {
+          return "After ${dateAndTime.minute - DateTime.now().minute} Mins.";
         } else {
           return "Reminded";
         }
@@ -111,7 +116,7 @@ class SingleNoteController extends GetxController {
     note.title = titleTextEditingController.text;
     note.content = contentTextEditingController.text;
     note.backgroundColor = staticColors[selectedIndex];
-    note.remindingDate = dateAndTime!.value;
+    note.remindingDate = dateAndTime;
     bool isSucceed = await homeController.addOrUpdate(note);
     if (isSucceed) {
       String message = (Get.arguments != null)
